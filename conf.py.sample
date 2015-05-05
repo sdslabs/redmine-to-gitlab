@@ -1,0 +1,2 @@
+token = "xxxxxxxxxxxxxx"   #admin user token
+base_url = "https://gitlab.example.com/api/v3"
