@@ -35,8 +35,8 @@ def delete( url, load = {}):
     return r.json()
 
 def redget( url, load = {}):
-    load['key'] = redmine_token
-    r = requests.get(redmine_base + url, params = load)
+    load['key'] = conf.redmine_token
+    r = requests.get(conf.redmine_base + url, params = load)
     print r
     if r.status_code != 200:
         return False
@@ -76,4 +76,3 @@ for user in users:
     inp = input("Do you wawnt to add the user (Enter 1 for yes, anything else for no)")
     if (int(inp) == 1):
       createuser(name, email, username)
-

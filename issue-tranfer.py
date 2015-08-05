@@ -6,10 +6,6 @@ import base
 
 con = base.Controller()
 
-#Your redmine authentication token
-redmine_base = 'https://redmine.yourdomain.co.in'
-redmine_token = ''
-
 def get( url, load = {}):
     load['private_token'] = conf.token
     r = requests.get(conf.base_url + url, params = load)
@@ -32,16 +28,16 @@ def delete( url, load = {}):
     return r.json()
 
 def redget( url, load = {}):
-    load['key'] = redmine_token
-    r = requests.get(redmine_base + url, params = load)
+    load['key'] = conf.redmine_token
+    r = requests.get(conf.redmine_base + url, params = load)
     print r
     if r.status_code != 200:
         return False
     return r.json()
 
 def redpost( url, load = {}):
-    load['key'] = redmine_token
-    r = requests.post(redmine_base + url, params = load)
+    load['key'] = conf.redmine_token
+    r = requests.post(conf.redmine_base + url, params = load)
     return r.json()
 
 
@@ -110,4 +106,3 @@ for pro in projects:
 
         if (issue['status']['id'] == 5):
             put('/projects/' +str( pro['id']) + '/issues/' + str(newiss['id']), {'id':pro['id'], 'issue_id':newiss['id'], 'state_event':'close'})
-
