@@ -4,17 +4,17 @@ import requests
 
 def get( url, load = {}):
     load['private_token'] = conf.token
-    r = requests.get(conf.base_url + url, params = load)
+    r = requests.get(conf.base_url + url, params = load, verify = conf.sslverify)
     return r.json()
 
 def post( url, load = {}):
     load['private_token'] = conf.token
-    r = requests.post(conf.base_url + url, params = load)
+    r = requests.post(conf.base_url + url, params = load, verify = conf.sslverify)
     return r.json()
 
 def delete( url, load = {}):
     load['private_token'] = conf.token
-    r = requests.delete(conf.base_url + url, params = load)
+    r = requests.delete(conf.base_url + url, params = load, verify = conf.sslverify)
     return r.json()
 
 
@@ -142,10 +142,3 @@ class Controller:
             if (user['username'] == username):
                 return True
         return False
-
-
-
-
-
-
-

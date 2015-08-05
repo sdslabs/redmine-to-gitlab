@@ -15,28 +15,28 @@ gitlab_cookie = ''
 
 def get( url, load = {}):
     load['private_token'] = conf.token
-    r = requests.get(conf.base_url + url, params = load)
+    r = requests.get(conf.base_url + url, params = load, verify = conf.sslverify)
     return r.json()
 
 def put( url, load = {}):
     load['private_token'] = conf.token
-    r = requests.put(conf.base_url + url, params = load)
+    r = requests.put(conf.base_url + url, params = load, verify = conf.sslverify)
     return r.json()
 
 
 def post( url, load = {}):
     load['private_token'] = conf.token
-    r = requests.post(conf.base_url + url, params = load)
+    r = requests.post(conf.base_url + url, params = load, verify = conf.sslverify)
     return r.json()
 
 def delete( url, load = {}):
     load['private_token'] = conf.token
-    r = requests.delete(conf.base_url + url, params = load)
+    r = requests.delete(conf.base_url + url, params = load, verify = conf.sslverify)
     return r.json()
 
 def redget( url, load = {}):
     load['key'] = conf.redmine_token
-    r = requests.get(conf.redmine_base + url, params = load)
+    r = requests.get(conf.redmine_base + url, params = load, verify = conf.sslverify)
     print r
     if r.status_code != 200:
         return False
