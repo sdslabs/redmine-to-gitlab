@@ -1,2 +1,8 @@
 token = "xxxxxxxxxxxxxx"   #admin user token
 base_url = "https://gitlab.example.com/api/v3"
+
+redmine_base = 'https://redmine.yourdomain.co.in'
+redmine_token = ''
+
+# see also http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification
+sslverify = False # or True or path_to_pem
