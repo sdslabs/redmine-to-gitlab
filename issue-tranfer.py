@@ -43,21 +43,13 @@ def redpost( url, load = {}):
     return r.json()
 
 
-#projects = get('/projects/all', {'page':1, 'per_page':500})
-#projects.extend(get('/projects/all', {'page':2, 'per_page':500}))
-projects = [{'id':1, 'name':'ep'}]
+projects = get('/projects/all', {'page':1, 'per_page':500})
+projects.extend(get('/projects/all', {'page':2, 'per_page':500}))
 
-#redmine_projects = redget('/projects.json', {'limit':100, 'offset':0})['projects']
-#redmine_projects.extend(redget('/projects.json', {'limit':100, 'offset':100})['projects'])
+redmine_projects = redget('/projects.json', {'limit':100, 'offset':0})['projects']
+redmine_projects.extend(redget('/projects.json', {'limit':100, 'offset':100})['projects'])
 
-#print len(redmine_projects)
-
-rawtimeentries = redget('/time_entries.json', {'limit':1000})
-timeentries = {}
-for rte in rawtimeentries['time_entries']:
-    print str(rte['issue']['id']) + '-> ' + str(rte['hours'])
-
-exit
+print len(redmine_projects)
 
 def find_redmine_id(name):
     if (name == 'ep'):
@@ -101,53 +93,39 @@ for pro in projects:
 
     print len(issues)
 
-    for i in issues:
-        if (i['id'] >= 807):
-            details = redget('/issues/' + str(i['id']) + '.json', {'include':'journals'})['issue']
-            if ('journals' in details):
-                for journal in details['journals']:
-                    if ('notes' in journal):
-                        print journal['notes']
-                    else:
-                        print 'no notes'
-            else:
-                print 'no journals'
-            #for k, v in details.iteritems():
-            #    print k + ' -> ' + repr(v)
-
-    #continue
     for issue in reversed(issues):
-        print str(issue['id'])
-        gitissue = get('/projects/' + str( pro['id']) + '/issues/' + str(issue['id']))
-        if (not gitissue):
-            newissue = {}
-            newissue['id'] = pro['id']
-            newissue['title'] = issue['subject']
-            gitissue = post('/projects/' + str(pro['id']) + '/issues', newissue)
-        else:
-            print gitissue
 
-        gitissue['description'] = issue["description"]
-        #if 'assigned_to' in issue:
-            #auser = con.finduserbyname(issue['assigned_to']['name'])
-            #if(auser):
+        newissue = {}
+        newissue['id'] = pro['id']
+        newissue['title'] = issue['subject']
+        newissue['description'] = issue["description"]
+        if 'assigned_to' in issue:
+            auser = con.finduserbyname(issue['assigned_to']['name'])
+            if(auser):
+                newissue['assignee_id'] = auser['id']
+        print newissue
 
-        gitissue['assignee_id'] = 2
+        # this works if milestones with same ids are precreated in gitlab
+        # OR one can call POST /projects/:id/milestones
+        # https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/api/milestones.md
         if ('fixed_version' in issue):
-            gitissue['milestone_id'] = issue['fixed_version']['id']
-        put('/projects/' +str(pro['id']) + '/issues/' + str(gitissue['id']), gitissue)
+            newissue['milestone_id'] = issue['fixed_version']['id']
 
+        newiss = post('/projects/' + str(pro['id']) + '/issues', newissue)
+        print newiss
+
+        # finally try and add all comments
         details = redget('/issues/' + str(issue['id']) + '.json', {'include':'journals'})['issue']
         if ('journals' in details):
             for journal in details['journals']:
                 if ('notes' in journal):
                     if (journal['notes']):
-                        post('/projects/'+str(pro['id'])+ '/issues/' + str(gitissue['id']) + '/notes', {'id':pro['id'], 'issue_id':gitissue['id'],'body':journal['notes']})
+                        post('/projects/'+str(pro['id'])+ '/issues/' + str(newiss['id']) + '/notes', {'id':pro['id'], 'issue_id':newiss['id'],'body':journal['notes']})
                 else:
                     print 'no notes'
         else:
             print 'no journals'
 
-        #continue
+        # and close issue eventually
         if (issue['status']['id'] == 5):
             put('/projects/' +str(pro['id'])+ '/issues/' + str(gitissue['id']), {'id':pro['id'], 'issue_id':gitissue['id'], 'state_event':'close'})
