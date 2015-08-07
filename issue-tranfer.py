@@ -128,4 +128,4 @@ for pro in projects:
 
         # and close issue eventually
         if (issue['status']['id'] == 5):
-            put('/projects/' +str(pro['id'])+ '/issues/' + str(gitissue['id']), {'id':pro['id'], 'issue_id':gitissue['id'], 'state_event':'close'})
+            put('/projects/' +str(pro['id'])+ '/issues/' + str(newiss['id']), {'id':pro['id'], 'issue_id':newiss['id'], 'state_event':'close'})
