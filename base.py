@@ -53,6 +53,8 @@ class Controller:
     def finduserbyname(self, name):
         userlist = self.getuserlist()
 
+        print userlist
+
         for user in userlist:
             if (user['name'].lower() == name.lower()):
                 return user
