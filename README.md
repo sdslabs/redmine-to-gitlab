@@ -2,7 +2,7 @@
 
 Here are a set of scripts to import data from an existing redmine setup to gitlab. 
 
-We have used this while we were shifing to gitlab. Hope it might be of help to any one who deos that in future.
+We have used this while we were shifting to gitlab. Hope it might be of help to any one who does that in future.
 
 ### Requirement:
 - Python lib: requests
@@ -12,9 +12,8 @@ We have used this while we were shifing to gitlab. Hope it might be of help to a
 
 ### General Instructions
 - You need to set the config file.
-- Each file also requie some configs (will try to put all in the conf file in future) like gitlab cookies and redmine auth-key.
+- Each script also requires some configs (will try to put all in the conf file in future) like gitlab cookies and redmine auth-key.
 Set them.
-
 
 ##### Feel free to contact us at [Jinora](https://chat.sdslabs.co) or through [email](mailto:contact@sdslabs.co.in)  in case you need any help.
 
