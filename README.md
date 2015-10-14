@@ -11,7 +11,13 @@ We have used this while we were shifing to gitlab. Hope it might be of help to a
 - Redmine auth-key of admin
 
 ### General Instructions
-- You need to set the config file.
+- Copy the config file example:
+
+```python
+cp conf.py.local conf.py
+```
+
+- Edit *conf.py* with your settings
 - Each file also requie some configs (will try to put all in the conf file in future) like gitlab cookies and redmine auth-key.
 Set them.
 
