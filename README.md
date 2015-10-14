@@ -12,6 +12,7 @@ We have used this while we were shifting to gitlab. Hope it might be of help to 
 
 ### General Instructions
 - Copy the config file example:
+
   ```python
   cp conf.py.local conf.py
   ```
